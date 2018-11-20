@@ -7,11 +7,31 @@ start="${1:-0}"
 upperlim="${2:-1}"
 parallel="${3:-1}"
 
-echo start timestamp: `date +%s%N | cut -b1-13` ms
-echo "end timestamps (ms):"
+echo Start @ `date`.
+START_TS=`date +%s%N | cut -b1-13`
 for ((i=0; i<parallel; i++)); do
   s=$((i * upperlim / parallel))
   e=$(((i+1) * upperlim / parallel))
-  ./start-many.sh $s $e && date +%s%N | cut -b1-13 &
+  ./start-many.sh $s $e &
+  pids[${i}]=$!
 done
+
+# wait for all pids
+for pid in ${pids[*]}; do
+    wait $pid
+done
+
+END_TS=`date +%s%N | cut -b1-13`
+END_DATE=`date`
+
+total=$((upperlim-start))
+delta_ms=$((END_TS-START_TS))
+delta=$((delta_ms/1000))
+rate=`bc -l <<< "$total/$delta"`
+
+cat << EOL
+Done @ $END_DATE.
+Started $total microVMs in delta milliseconds.
+MicroVM mutation rate was $rate microVMs per second.
+EOL
 
