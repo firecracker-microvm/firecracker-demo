@@ -12,8 +12,8 @@ For simplicity run everything as root.
 
 ```bash
 ./start-firecracker.sh
-ssh -i xenial.rootfs.id_rsa 169.254.0.1
-iperf -c 169.254.0.2
+ssh -i xenial.rootfs.id_rsa root@169.254.0.1
+iperf3 -c 169.254.0.2
 reboot      # this is the nice poweroff, alternatively could CTRL+D then `killall firecracker`
 ```
 
