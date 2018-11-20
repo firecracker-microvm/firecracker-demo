@@ -1,6 +1,7 @@
 # firecracker-demo
 
 For simplicity run everything as root.
+Demo was developed to be run on a EC2 i3.metal instance.
 
 ## initial setup
 
