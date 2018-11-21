@@ -16,5 +16,5 @@ sysctl -w net.ipv6.conf.${TAP_DEV}.disable_ipv6=1 > /dev/null
 ip addr add "${TAP_IP}${MASK_SHORT}" dev "$TAP_DEV"
 ip link set dev "$TAP_DEV" up
 
-iperf3 -B $TAP_IP -s & > /dev/null 2>&1
+iperf3 -B $TAP_IP -s > /dev/null 2>&1 &
 

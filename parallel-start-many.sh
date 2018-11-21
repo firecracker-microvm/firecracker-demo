@@ -31,7 +31,7 @@ rate=`bc -l <<< "$total/$delta"`
 
 cat << EOL
 Done @ $END_DATE.
-Started $total microVMs in delta milliseconds.
+Started $total microVMs in $delta_ms milliseconds.
 MicroVM mutation rate was $rate microVMs per second.
 EOL
 
