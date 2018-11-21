@@ -57,9 +57,7 @@ rm -f "$API_SOCKET"
 
 ./firecracker --api-sock "$API_SOCKET" --context '{"id": "fc-'${SB_ID}'", "jailed": false, "seccomp_level": 0, "start_time_us": 0, "start_time_cpu_us": 0}' &
 
-sleep 0.005s
-
-START_TS=`date +%s%N | cut -b1-13`
+sleep 0.015s
 
 # Wait for API server to start
 while [ ! -e "$API_SOCKET" ]; do
@@ -118,14 +116,9 @@ curl_put '/network-interfaces/1' <<EOF
 }
 EOF
 
-BOOTSTART_TS=`date +%s%N | cut -b1-13`
-CURL_DELTA=$(($BOOTSTART_TS - $START_TS))
-
 curl_put '/actions' <<EOF
 {
   "action_type": "InstanceStart"
 }
 EOF
-
-echo "Curl overhead: $CURL_DELTA ms"
 

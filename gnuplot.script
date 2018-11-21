@@ -3,7 +3,7 @@ set output "boot-time.png"
 
 set key left bottom
 
-stats "data.log" u 1:9 nooutput
+stats "data.log" u 1:3 nooutput
 
 set xrange [0:STATS_max_x]
 set yrange [0:STATS_max_y+50]
@@ -15,7 +15,7 @@ set label 2 gprintf("Minimum = %g ms", STATS_min_y) at STATS_pos_min_y-25, STATS
 set arrow from STATS_pos_min_y, STATS_min_y-77 to STATS_pos_min_y, STATS_min_y lc rgb 'black'
 
 f(x) = mean_y
-fit f(x) 'data.log' u 1:9 via mean_y
+fit f(x) 'data.log' u 1:3 via mean_y
 
 stddev_y = sqrt(FIT_WSSR / (FIT_NDF + 1))
 
@@ -25,9 +25,7 @@ set label 4 gprintf("Standard deviation = %g", stddev_y) at STATS_max_x/2-50, 80
 plot mean_y-stddev_y with filledcurves y1=mean_y lt 1 lc rgb "#b3ffb3" notitle, \
      mean_y+stddev_y with filledcurves y1=mean_y lt 1 lc rgb "#b3ffb3" title "Standard deviation", \
      mean_y w l lt 1 lc rgb "#ffff66" lw 3 title "Mean average", \
-     "data.log" u 1:5 title 'CURL/API' w p lc rgb 'orange' pt 14 ps 1, \
-     "data.log" u 1:7 title 'Guest Boot' w p lc rgb 'blue' pt 8 ps 1, \
-     "data.log" u 1:9 title 'Total' w p lc rgb 'red' pt 7 ps 1, \
-     STATS_min_y w l lc rgb 'red' notitle, \
-     STATS_max_y w l lc rgb 'red' notitle
+     "data.log" u 1:3 title 'Guest Boot' w p lc rgb 'orange' pt 14 ps 1, \
+     STATS_min_y w l lc rgb 'blue' notitle, \
+     STATS_max_y w l lc rgb 'blue' notitle
 

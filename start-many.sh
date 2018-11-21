@@ -8,5 +8,5 @@ upperlim="${2:-1}"
 
 mkdir -p output
 for ((i=start; i<upperlim; i++)); do
-  ./start-firecracker.sh "$i" > output/bashlog-fc-sb${i}
+  ./start-firecracker.sh "$i"
 done
