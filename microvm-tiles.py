@@ -14,11 +14,12 @@ cycle.
 
 
 import curses
+import re
 import time
 
 MAX_MICROVMS = 4096
 COLOR_BLACK = 101
-MICROVM_TAP_REGEX = r'fc-tap(\d+)-tap'
+MICROVM_TAP_REGEX = r'fc-(\d+)-tap'
 
 
 def render_microvms(stdscr):
