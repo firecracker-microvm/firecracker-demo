@@ -9,3 +9,5 @@ do
   ip link del fc-$i-tap0 2> /dev/null &
 done
 
+rm -rf output/*
+rm -rf /tmp/firecracker-sb*

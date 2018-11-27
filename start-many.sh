@@ -6,7 +6,6 @@
 start="${1:-0}"
 upperlim="${2:-1}"
 
-mkdir -p output
 for ((i=start; i<upperlim; i++)); do
   ./start-firecracker.sh "$i"
 done

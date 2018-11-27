@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Usage 
-## sudo ./parallel-start-many.sh 0 100 5 # Will start VM#0 to VM#99 5 at a time. 
+## ./parallel-start-many.sh 0 100 5 # Will start VM#0 to VM#99 5 at a time.
 
 start="${1:-0}"
 upperlim="${2:-1}"
@@ -34,4 +34,6 @@ Done @ $END_DATE.
 Started $total microVMs in $delta_ms milliseconds.
 MicroVM mutation rate was $rate microVMs per second.
 EOL
+
+./extract-times.sh &
 

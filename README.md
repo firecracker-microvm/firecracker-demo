@@ -22,15 +22,21 @@ python3 microvm-tiles.py
 
 will control the rest of the demo.
 
+Raise the maximum processes limit.
+
 ```bash
-# switch to root
-sudo su
+sudo cat >> /etc/security/limits.conf <<EOL
+ec2-user	soft	nproc		16384
+ec2-user	hard	nproc		16384
+EOL
 ```
+
+Reload the ssh session to have the new limit applied.
 
 Create 4000 TAPs, configure networking for them and start 4k `iperf3` servers each bound to their respective TAP.
 
 ```bash
-./0.initial-setup.sh 4000
+sudo ./0.initial-setup.sh 4000
 ```
 
 #### Start 4000 Firecracker microVMs
@@ -43,9 +49,6 @@ The script will report **total duration** as well as **mutation rate**.
 # start a total of 4k uVMs from 10 parallel threads
 ./parallel-start-many.sh 0 4000 6
 # ... wait for it ... should take around 60 seconds ... watch the heatmap
-
-# process uVMs logs to get boot-times. Will write "data.log".
-./extract-times.sh &
 ```
 
 Each microVM has a workload (iperf client) and will run it in a loop with a random `sleep` between iterations.
@@ -63,7 +66,7 @@ ifconfig fc-$ID-tap0 | grep "inet "
        inet 169.254.0.170  netmask 255.255.255.252  broadcast 0.0.0.0
 
 # IP of microVM on other side is *one less*
-ssh -i xenial.rootfs.id_rsa 169.254.0.169
+ssh -i xenial.rootfs.id_rsa root@169.254.0.169
 ```
 
 You're now inside the microVM. Do as you please.

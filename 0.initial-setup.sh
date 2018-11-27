@@ -6,6 +6,7 @@ RES=scripts
 
 rm -rf output
 mkdir output
+chown -R ec2-user:ec2-user output
 
 pushd $RES > /dev/null
 
