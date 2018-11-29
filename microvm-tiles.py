@@ -18,7 +18,8 @@ import re
 import time
 
 MAX_MICROVMS = 4096
-COLOR_BLACK = 101
+COLOR_NEVER_ACTIVE = 101
+COLOR_BACKGROUND = 102
 MICROVM_TAP_REGEX = r'fc-(\d+)-tap'
 
 
@@ -36,12 +37,21 @@ def render_microvms(stdscr):
         curses.init_pair(shade, shade, shade)
 
     # Black for background.
-    curses.init_color(COLOR_BLACK, 0, 0, 0)
-    curses.init_pair(COLOR_BLACK, COLOR_BLACK, COLOR_BLACK)
+    curses.init_color(COLOR_BACKGROUND, 0, 0, 0)
+    curses.init_pair(COLOR_BACKGROUND, COLOR_BACKGROUND, COLOR_BACKGROUND)
+
+    # Dark gray for microVMs that were never active.
+    curses.init_color(COLOR_NEVER_ACTIVE, 100, 100, 100)
+    curses.init_pair(
+        COLOR_NEVER_ACTIVE,
+        COLOR_NEVER_ACTIVE,
+        COLOR_NEVER_ACTIVE
+    )
 
     # Seed value for the last iteration's microVM network interface activty.
     last_rx = [0] * MAX_MICROVMS
     delta_rx = [0] * MAX_MICROVMS
+    ever_rx = [0] * MAX_MICROVMS
 
     # Blinky loop of infinite microVM activity rendering
     # TODO: End loop on any key press (Ctrl+C required now).
@@ -75,6 +85,9 @@ def render_microvms(stdscr):
                 if last_iface_idx < iface_idx:
                     last_iface_idx = iface_idx
 
+                if delta_rx[iface_idx] > 0:
+                    ever_rx[0] = 1
+
         # "Render" all microVMs. Their brightness is proportional to
         # delta_rx_bytes/max_rx_bytes
         for i in range(0, curses.LINES - 1):
@@ -82,12 +95,20 @@ def render_microvms(stdscr):
                 slot_idx = i * curses.COLS + j
                 # If there's no microVM there yet, use black
                 if slot_idx > last_iface_idx:
-                    microvm_color = COLOR_BLACK 
+                    microvm_color = COLOR_BACKGROUND
                 else:
-                    # Inactive microvms get a grey color.
-                    microvm_color = 1
-                    if max_rx > 0:
-                        microvm_color += int(99 * delta_rx[slot_idx] / max_rx)
+                    # Never active microVMs get a dark grey color.
+                    if ever_rx[slot_idx] = 0:
+                        microvm_color = COLOR_NEVER_ACTIVE
+                    else:
+                        # Currently inactive microvms get a lighter grey color.
+                        microvm_color = 1
+                        if max_rx > 0:
+                            # Active microVMs get a shade of orange in
+                            # proportion to their relative transmitted bytes.
+                            microvm_color += int(
+                                99 * delta_rx[slot_idx] / max_rx
+                            )
 
                 stdscr.addstr(i, j, ' ', curses.color_pair(microvm_color))
 
