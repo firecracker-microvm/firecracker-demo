@@ -1,11 +1,11 @@
-# firecracker-demo
+# Firecracker-demo
 
-## general info
+## General info
 
 For simplicity run everything as root. If we set `CAP_NET_ADMIN` on the **firecracker** binary, we don't need to run as root anymore.
 Demo was developed to be run on a EC2 i3.metal instance.
 
-## step-by-step
+## Step-by-step
 
 Get this repo on a EC2 i3.metal instance.
 Open two terminals/ssh-connections to the instance.
