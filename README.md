@@ -2,8 +2,8 @@
 
 ## General info
 
-For simplicity run everything as root. If we set `CAP_NET_ADMIN` on the **firecracker** binary, we don't need to run as root anymore.
 Demo was developed to be run on a EC2 i3.metal instance.
+For any other host type, make sure you adjust the default parameters to the various scripts as the default 4000 microVMs might not be the right number for you.
 
 ## Step-by-step
 
