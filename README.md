@@ -50,7 +50,7 @@ Use 6 parallel threads to configure and start **4000** microVMs. Each thread wil
 The script will report **total duration** as well as **mutation rate**.
 
 ```bash
-# start a total of 4k uVMs from 10 parallel threads
+# start a total of 4k uVMs from 6 parallel threads
 ./parallel-start-many.sh 0 4000 6
 # ... wait for it ... should take around 60 seconds ... watch the heatmap
 ```
