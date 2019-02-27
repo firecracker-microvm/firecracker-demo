@@ -3,8 +3,8 @@
 ## Discaimer!
 
 This demo showcases Firecracker's agility and high-density capabiliies.
-**It's only been run on an EC2 I3.metal host (the defaults start 4000 microVMs)
-with an Ubuntu host OS, from an Ubuntu client.**
+**It's been run on an EC2 I3.metal host (the defaults start 4000 microVMs)
+with an Ubuntu and an Amazon Linux 2 host OS, from an Ubuntu client.**
 
 Deviations form this setup will probably lead to issues and/or sub-par performance.
 If you want to help us support the demo on more platforms ... we take pull requests :)
@@ -36,6 +36,15 @@ EOL
 ```
 
 Reload the ssh session to have the new limit applied.
+
+Install additional dependencies: `python3` and `iperf3`.
+
+Fix permissions on `/dev/kvm` and the ssh key:
+
+```bash
+sudo chmod 777 /dev/kvm
+chmod 400 xenial.rootfs.id_rsa
+```
 
 Create 4000 TAPs, configure networking for them and start 4k `iperf3` servers each bound to their respective TAP.
 
@@ -94,16 +103,16 @@ localhost:~# iperf3 -c $(./gateway-ip.sh)
 Connecting to host 169.254.0.170, port 5201
 [  5] local 169.254.0.169 port 53392 connected to 169.254.0.170 port 5201
 [ ID] Interval           Transfer     Bitrate         Retr  Cwnd
-[  5]   0.00-1.00   sec  1.72 GBytes  14.8 Gbits/sec    0    952 KBytes       
-[  5]   1.00-2.00   sec  1.67 GBytes  14.4 Gbits/sec    0    952 KBytes       
-[  5]   2.00-3.00   sec  1.76 GBytes  15.1 Gbits/sec    0    952 KBytes       
-[  5]   3.00-4.00   sec  1.69 GBytes  14.5 Gbits/sec    0    952 KBytes       
-[  5]   4.00-5.00   sec  1.69 GBytes  14.5 Gbits/sec    0    952 KBytes       
-[  5]   5.00-6.00   sec  1.66 GBytes  14.3 Gbits/sec    0    952 KBytes       
-[  5]   6.00-7.00   sec  1.67 GBytes  14.4 Gbits/sec    0    952 KBytes       
-[  5]   7.00-8.00   sec  1.77 GBytes  15.2 Gbits/sec    0    952 KBytes       
-[  5]   8.00-9.00   sec  1.76 GBytes  15.1 Gbits/sec    0    952 KBytes       
-[  5]   9.00-10.00  sec  1.42 GBytes  12.2 Gbits/sec    0    952 KBytes       
+[  5]   0.00-1.00   sec  1.72 GBytes  14.8 Gbits/sec    0    952 KBytes
+[  5]   1.00-2.00   sec  1.67 GBytes  14.4 Gbits/sec    0    952 KBytes
+[  5]   2.00-3.00   sec  1.76 GBytes  15.1 Gbits/sec    0    952 KBytes
+[  5]   3.00-4.00   sec  1.69 GBytes  14.5 Gbits/sec    0    952 KBytes
+[  5]   4.00-5.00   sec  1.69 GBytes  14.5 Gbits/sec    0    952 KBytes
+[  5]   5.00-6.00   sec  1.66 GBytes  14.3 Gbits/sec    0    952 KBytes
+[  5]   6.00-7.00   sec  1.67 GBytes  14.4 Gbits/sec    0    952 KBytes
+[  5]   7.00-8.00   sec  1.77 GBytes  15.2 Gbits/sec    0    952 KBytes
+[  5]   8.00-9.00   sec  1.76 GBytes  15.1 Gbits/sec    0    952 KBytes
+[  5]   9.00-10.00  sec  1.42 GBytes  12.2 Gbits/sec    0    952 KBytes
 - - - - - - - - - - - - - - - - - - - - - - - - -
 [ ID] Interval           Transfer     Bitrate         Retr
 [  5]   0.00-10.00  sec  16.8 GBytes  14.4 Gbits/sec    0             sender
