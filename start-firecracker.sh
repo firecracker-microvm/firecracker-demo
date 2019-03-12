@@ -7,8 +7,8 @@ RO_DRIVE="$PWD/xenial.rootfs.ext4"
 KERNEL="$PWD/vmlinux"
 TAP_DEV="fc-${SB_ID}-tap0"
 
-KERNEL_BOOT_ARGS="panic=1 pci=off reboot=k tsc=reliable quiet 8250.nr_uarts=0 ipv6.disable=1 $R_INIT"
-#KERNEL_BOOT_ARGS="console=ttyS0 reboot=k panic=1 pci=off nomodules ipv6.disable=1 $R_INIT"
+#KERNEL_BOOT_ARGS="panic=1 pci=off reboot=k tsc=reliable quiet 8250.nr_uarts=0 ipv6.disable=1 $R_INIT"
+KERNEL_BOOT_ARGS="console=ttyS0 reboot=k panic=1 pci=off nomodules ipv6.disable=1 $R_INIT"
 
 API_SOCKET="/tmp/firecracker-sb${SB_ID}.sock"
 CURL=(curl --silent --show-error --header Content-Type:application/json --unix-socket "${API_SOCKET}" --write-out "HTTP %{http_code}")
@@ -39,23 +39,23 @@ touch $logfile
 
 # Setup TAP device that uses proxy ARP
 MASK_LONG="255.255.255.252"
-#MASK_SHORT="/30"
+MASK_SHORT="/30"
 FC_IP="$(printf '169.254.%s.%s' $(((4 * SB_ID + 1) / 256)) $(((4 * SB_ID + 1) % 256)))"
 TAP_IP="$(printf '169.254.%s.%s' $(((4 * SB_ID + 2) / 256)) $(((4 * SB_ID + 2) % 256)))"
 FC_MAC="$(printf '02:FC:00:00:%02X:%02X' $((SB_ID / 256)) $((SB_ID % 256)))"
-#ip link del "$TAP_DEV" 2> /dev/null || true
-#ip tuntap add dev "$TAP_DEV" mode tap
-#sysctl -w net.ipv4.conf.${TAP_DEV}.proxy_arp=1 > /dev/null
-#sysctl -w net.ipv6.conf.${TAP_DEV}.disable_ipv6=1 > /dev/null
-#ip addr add "${TAP_IP}${MASK_SHORT}" dev "$TAP_DEV"
-#ip link set dev "$TAP_DEV" up
+ip link del "$TAP_DEV" 2> /dev/null || true
+ip tuntap add dev "$TAP_DEV" mode tap
+sysctl -w net.ipv4.conf.${TAP_DEV}.proxy_arp=1 > /dev/null
+sysctl -w net.ipv6.conf.${TAP_DEV}.disable_ipv6=1 > /dev/null
+ip addr add "${TAP_IP}${MASK_SHORT}" dev "$TAP_DEV"
+ip link set dev "$TAP_DEV" up
 
 KERNEL_BOOT_ARGS="${KERNEL_BOOT_ARGS} ip=${FC_IP}::${TAP_IP}:${MASK_LONG}::eth0:off"
 
 # Start Firecracker API server
 rm -f "$API_SOCKET"
 
-./firecracker --api-sock "$API_SOCKET" --context '{"id": "fc-'${SB_ID}'", "jailed": false, "seccomp_level": 0, "start_time_us": 0, "start_time_cpu_us": 0}' &
+./firecracker --api-sock "$API_SOCKET" --id 551e7604-e35c-42b3-b825-416853441234 &
 
 sleep 0.015s
 
@@ -75,12 +75,12 @@ curl_put '/logger' <<EOF
 }
 EOF
 
-#curl_put '/machine-config' <<EOF
-#{
-#  "vcpu_count": 1,
-#  "mem_size_mib": 128
-#}
-#EOF
+curl_put '/machine-config' <<EOF
+{
+  "vcpu_count": 2,
+  "mem_size_mib": 128
+}
+EOF
 
 curl_put '/boot-source' <<EOF
 {
@@ -111,8 +111,7 @@ curl_put '/network-interfaces/1' <<EOF
 {
   "iface_id": "1",
   "guest_mac": "$FC_MAC",
-  "host_dev_name": "$TAP_DEV",
-  "state": "Attached"
+  "host_dev_name": "$TAP_DEV"
 }
 EOF
 
