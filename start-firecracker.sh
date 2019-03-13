@@ -111,8 +111,7 @@ curl_put '/network-interfaces/1' <<EOF
 {
   "iface_id": "1",
   "guest_mac": "$FC_MAC",
-  "host_dev_name": "$TAP_DEV",
-  "state": "Attached"
+  "host_dev_name": "$TAP_DEV"
 }
 EOF
 
