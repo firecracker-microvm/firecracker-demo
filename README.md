@@ -29,7 +29,7 @@ will control the rest of the demo.
 Raise the maximum processes limit.
 
 ```bash
-sudo cat >> /etc/security/limits.conf <<EOL
+sudo tee -a >> /etc/security/limits.conf <<EOL
 ec2-user soft nproc 16384
 ec2-user hard nproc 16384
 EOL
