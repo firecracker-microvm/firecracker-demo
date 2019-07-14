@@ -1,17 +1,17 @@
 # Firecracker-demo
 
-## Discaimer!
+## Disclaimer!
 
 This demo showcases Firecracker's agility and high-density capabiliies.
 **It's been run on an EC2 I3.metal host (the defaults start 4000 microVMs)
 with an Ubuntu and an Amazon Linux 2 host OS, from an Ubuntu client.**
 
-Deviations form this setup will probably lead to issues and/or sub-par performance.
+Deviations from this setup will probably lead to issues and/or sub-par performance.
 If you want to help us support the demo on more platforms ... we take pull requests :)
 
 ## Step-by-Step Instructions
 
-Get this repo on a EC2 i3.metal instance.
+Get this repo on an EC2 i3.metal instance.
 Open two terminals/ssh-connections to the instance.
 
 ### Terminal window 1
