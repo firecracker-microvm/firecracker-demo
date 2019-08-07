@@ -1,13 +1,14 @@
 # Firecracker-demo
 
-## Disclaimer!
+## Disclaimer
 
 This demo showcases Firecracker's agility and high-density capabiliies.
 **It's been run on an EC2 I3.metal host (the defaults start 4000 microVMs)
 with an Ubuntu and an Amazon Linux 2 host OS, from an Ubuntu client.**
 
 Deviations from this setup will probably lead to issues and/or sub-par performance.
-If you want to help us support the demo on more platforms ... we take pull requests :)
+If you want to help us support the demo on more platforms...we take
+pull requests :)
 
 ## Step-by-Step Instructions
 
@@ -46,7 +47,8 @@ sudo chmod 777 /dev/kvm
 chmod 400 xenial.rootfs.id_rsa
 ```
 
-Create 4000 TAPs, configure networking for them and start 4k `iperf3` servers each bound to their respective TAP.
+Create 4000 TAPs, configure networking for them and start 4k `iperf3` servers
+each bound to their respective TAP.
 
 ```bash
 sudo ./0.initial-setup.sh 4000
@@ -54,7 +56,9 @@ sudo ./0.initial-setup.sh 4000
 
 #### Start 4000 Firecracker microVMs
 
-Use 6 parallel threads to configure and start **4000** microVMs. Each thread will get an equal slice of the 4k total and sequentially configure and issue the start command for each microVM.
+Use 6 parallel threads to configure and start **4000** microVMs. Each
+thread will get an equal slice of the 4k total and sequentially configure
+and issue the start command for each microVM.
 
 The script will report **total duration** as well as **mutation rate**.
 
@@ -64,9 +68,13 @@ The script will report **total duration** as well as **mutation rate**.
 # ... wait for it ... should take around 60 seconds ... watch the heatmap
 ```
 
-Each microVM has a workload (iperf client) and will run it in a loop with a random `sleep` between iterations.
+Each microVM has a workload (iperf client) and will run it in a loop with
+a random `sleep` between iterations.
 
-Looking at the heatmap you should see **six** 'snakes' advancing which are the microVMs that have just been powered up and are doing their first iteration of the workload. Once that's done, the random sleep will lead to random lighting of the heatmap.
+Looking at the heatmap you should see **six** 'snakes' advancing which
+are the microVMs that have just been powered up and are doing their first
+iteration of the workload. Once that's done, the random sleep will lead
+to random lighting of the heatmap.
 
 #### Pick a microVM and play with it
 
@@ -98,6 +106,7 @@ localhost:~# iperf3 -c $(./gateway-ip.sh) -b 104857600
 This microVM should now shine brighter in the heatmap.
 
 Demonstrate the network throughput of this microVM:
+
 ```bash
 localhost:~# iperf3 -c $(./gateway-ip.sh)
 Connecting to host 169.254.0.170, port 5201
