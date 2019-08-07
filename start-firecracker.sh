@@ -3,7 +3,6 @@ SB_ID="${1:-0}" # Default to sb_id=0
 
 RO_DRIVE="$PWD/xenial.rootfs.ext4"
 
-# TODO: Boot vmlinuz/bzImage when supported, https://sim.amazon.com/issues/P12329852
 KERNEL="$PWD/vmlinux"
 TAP_DEV="fc-${SB_ID}-tap0"
 
