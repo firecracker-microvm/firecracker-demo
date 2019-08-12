@@ -54,7 +54,7 @@ KERNEL_BOOT_ARGS="${KERNEL_BOOT_ARGS} ip=${FC_IP}::${TAP_IP}:${MASK_LONG}::eth0:
 # Start Firecracker API server
 rm -f "$API_SOCKET"
 
-./firecracker --api-sock "$API_SOCKET" --context '{"id": "fc-'${SB_ID}'", "jailed": false, "seccomp_level": 0, "start_time_us": 0, "start_time_cpu_us": 0}' &
+./firecracker --api-sock "$API_SOCKET" --id "${SB_ID}" &
 
 sleep 0.015s
 
