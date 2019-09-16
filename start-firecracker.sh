@@ -68,7 +68,7 @@ curl_put '/logger' <<EOF
 {
   "log_fifo": "$logfile",
   "metrics_fifo": "$metricsfile",
-  "level": "Warning",
+  "level": "Info",
   "show_level": false,
   "show_log_origin": false
 }
