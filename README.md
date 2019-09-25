@@ -36,6 +36,9 @@ ec2-user hard nproc 16384
 EOL
 ```
 
+Note: In the above configuration, `ec2-user` is a
+placeholder for the ec2 instance logged in user.
+
 Reload the ssh session to have the new limit applied.
 
 Install additional dependencies: `python3` and `iperf3`.
