@@ -10,7 +10,7 @@ KERNEL_BOOT_ARGS="panic=1 pci=off reboot=k tsc=reliable quiet 8250.nr_uarts=0 ip
 #KERNEL_BOOT_ARGS="console=ttyS0 reboot=k panic=1 pci=off nomodules ipv6.disable=1"
 
 API_SOCKET="/tmp/firecracker-sb${SB_ID}.sock"
-CURL=(curl --silent --show-error --header Content-Type:application/json --unix-socket "${API_SOCKET}" --write-out "HTTP %{http_code}")
+CURL=(curl --silent --show-error --header Content-Type: application/json --unix-socket "${API_SOCKET}" --write-out "HTTP %{http_code}")
 
 curl_put() {
     local URL_PATH="$1"
