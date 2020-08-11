@@ -66,11 +66,16 @@ done
 
 curl_put '/logger' <<EOF
 {
-  "log_fifo": "$logfile",
-  "metrics_fifo": "$metricsfile",
   "level": "Info",
+  "log_path": "$logfile",
   "show_level": false,
   "show_log_origin": false
+}
+EOF
+
+curl_put '/metrics' <<EOF
+{
+  "metrics_path": "$metricsfile"
 }
 EOF
 
