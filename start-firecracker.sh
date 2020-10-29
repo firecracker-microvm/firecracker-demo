@@ -6,7 +6,7 @@ RO_DRIVE="$PWD/xenial.rootfs.ext4"
 KERNEL="$PWD/vmlinux"
 TAP_DEV="fc-${SB_ID}-tap0"
 
-KERNEL_BOOT_ARGS="panic=1 pci=off reboot=k tsc=reliable quiet 8250.nr_uarts=0 ipv6.disable=1"
+KERNEL_BOOT_ARGS="init=/sbin/boottime_init panic=1 pci=off reboot=k tsc=reliable quiet 8250.nr_uarts=0 ipv6.disable=1"
 #KERNEL_BOOT_ARGS="console=ttyS0 reboot=k panic=1 pci=off nomodules ipv6.disable=1"
 
 API_SOCKET="/tmp/firecracker-sb${SB_ID}.sock"
@@ -54,7 +54,7 @@ KERNEL_BOOT_ARGS="${KERNEL_BOOT_ARGS} ip=${FC_IP}::${TAP_IP}:${MASK_LONG}::eth0:
 # Start Firecracker API server
 rm -f "$API_SOCKET"
 
-./firecracker --api-sock "$API_SOCKET" --id "${SB_ID}" &>/dev/null &
+./firecracker --api-sock "$API_SOCKET" --id "${SB_ID}" --boot-timer &>/dev/null &
 
 sleep 0.015s
 
